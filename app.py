@@ -24,7 +24,7 @@ from sklearn.datasets import load_iris
 from flask import Flask
 
 from utils.logging import logger
-from sklearn.processing import StandardScaler
+from sklearn.preprocessing import StandardScaler
 from utils.logging import logger
 
 app = Flask(__name__)
