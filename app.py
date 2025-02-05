@@ -38,15 +38,15 @@ def hello() -> str:
     # https://cloud.google.com/run/docs/logging#correlate-logs
     logger.info("Child logger with trace Id.")
     iris = load_iris()
-    X = iris.data[:[2,3]]
+    X = iris.data[:, [2,3]]
     y = iris.target
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
-    dt = DecisionTreeClassifier(max_deth=3, min_samples_leaf=10, random_state=1 )
-    ft.fit(X,y)
+    dt = DecisionTreeClassifier(max_depth=3, min_samples_leaf=10, random_state=1 )
+    dt.fit(X_train, y_train)
     y_pred = dt.predict(X_test)
     rmse = np.sqrt(mean_squared_error(y_test,y_pred))
     
-    return "Prediction vs True:" + str(y_pred[0]+","+ str(y_test[0]))
+    return f"Prediction vs True: {y_pred[0]}, {y_test[0]}"
     
 
 def shutdown_handler(signal_int: int, frame: FrameType) -> None:
