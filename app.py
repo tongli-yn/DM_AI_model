@@ -15,9 +15,16 @@
 import signal
 import sys
 from types import FrameType
-
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import mean_squared_error
+from sklearn.datasets import load_iris
 from flask import Flask
 
+from utils.logging import logger
+from sklearn.processing import StandardScaler
 from utils.logging import logger
 
 app = Flask(__name__)
@@ -30,9 +37,17 @@ def hello() -> str:
 
     # https://cloud.google.com/run/docs/logging#correlate-logs
     logger.info("Child logger with trace Id.")
-
-    return "Hello, the most beautiful woman in the world!"
-
+    iris = load_iris()
+    X = iris.data[:[2,3]]
+    y = iris.target
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
+    dt = DecisionTreeClassifier(max_deth=3, min_samples_leaf=10, random_state=1 )
+    ft.fit(X,y)
+    y_pred = dt.predict(X_test)
+    rmse = np.sqrt(mean_squared_error(y_test,y_pred))
+    
+    return "Prediction vs True:" + str(y_pred[0]+","+ str(y_test[0]))
+    
 
 def shutdown_handler(signal_int: int, frame: FrameType) -> None:
     logger.info(f"Caught Signal {signal.strsignal(signal_int)}")
